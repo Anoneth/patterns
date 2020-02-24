@@ -1,5 +1,7 @@
 package lab1;
 
+import java.util.Random;
+
 import lab1.exception.DuplicateModelNameException;
 import lab1.exception.ModelPriceOutOfBoundsException;
 import lab1.exception.NoSuchModelNameException;
@@ -8,11 +10,11 @@ public class Motorcycle implements Transport, Cloneable {
     private class Model {
         String modelName = null;
         double price = Double.NaN;
-        
+
         Model prev = null;
         Model next = null;
     }
-    
+
     private Model head = new Model();
     {
         head.prev = head;
@@ -25,6 +27,14 @@ public class Motorcycle implements Transport, Cloneable {
     public Motorcycle(String name, int size) {
         this.name = name;
         this.size = 0;
+        Random rnd = new Random();
+        try {
+            for (int i = 0; i < size; i++) {
+                addModel("motorcycle" + i, rnd.nextInt(100));
+            }
+        } catch (Exception ex) {
+
+        }
     }
 
     @Override
@@ -38,18 +48,19 @@ public class Motorcycle implements Transport, Cloneable {
     }
 
     @Override
-    public void setModelName(String oldName, String newName) throws NoSuchModelNameException, DuplicateModelNameException {
+    public void setModelName(String oldName, String newName)
+            throws NoSuchModelNameException, DuplicateModelNameException {
         Model model = head.next;
         while (model != head) {
-            if (model.modelName.equals(newName)) throw new DuplicateModelNameException("Model " + newName + " already exists");
+            if (model.modelName.equals(newName))
+                throw new DuplicateModelNameException("Model " + newName + " already exists");
         }
         while (model != head && !model.modelName.equals(oldName)) {
             model = model.next;
         }
         if (model != head) {
             model.modelName = newName;
-        }
-        else {
+        } else {
             throw new NoSuchModelNameException("Model " + oldName + " not found");
         }
     }
@@ -71,19 +82,27 @@ public class Motorcycle implements Transport, Cloneable {
     public double getPrice(String modelName) throws NoSuchModelNameException {
         Model model = head.next;
         while (model != head && !model.modelName.equals(modelName)) {
-            return model.price;
+            model = model.next;
         }
-        throw new NoSuchModelNameException("Model " + modelName + " not found");
+        if (model == head) {
+            throw new NoSuchModelNameException("Model " + modelName + " not found");
+        } else
+            return model.price;
     }
 
     @Override
     public void setPrice(String modelName, double price) throws NoSuchModelNameException {
-        if (price < 0) throw new ModelPriceOutOfBoundsException("Price must be positive");
+        if (price < 0)
+            throw new ModelPriceOutOfBoundsException("Price must be positive");
         Model model = head.next;
         while (model != head && !model.modelName.equals(modelName)) {
+            model = model.next;
+        }
+        if (model == head)
+            throw new NoSuchModelNameException("Model " + modelName + " not found");
+        else {
             model.price = price;
         }
-        if (model == head) throw new NoSuchModelNameException("Model " + modelName + " not found");
     }
 
     @Override
@@ -93,18 +112,22 @@ public class Motorcycle implements Transport, Cloneable {
         Model model = head.next;
         while (model != head) {
             prices[i] = model.price;
+            model = model.next;
+            i++;
         }
         return prices;
     }
 
     @Override
     public void addModel(String modelName, double price) throws DuplicateModelNameException {
-        if (price < 0) throw new ModelPriceOutOfBoundsException("Price must be positive");
+        if (price < 0)
+            throw new ModelPriceOutOfBoundsException("Price must be positive");
         Model model = head.next;
         while (model != head && !model.modelName.equals(modelName)) {
             model = model.next;
         }
-        if (model == head) throw new DuplicateModelNameException("Model " + modelName + " already exists");
+        if (model != head)
+            throw new DuplicateModelNameException("Model " + modelName + " already exists");
         Model newModel = new Model();
         newModel.modelName = modelName;
         newModel.price = price;
@@ -128,16 +151,29 @@ public class Motorcycle implements Transport, Cloneable {
             prev.next = next;
             next.prev = prev;
             size--;
-        }
-        else throw new NoSuchModelNameException("Model " + modelName + " not found");
+        } else
+            throw new NoSuchModelNameException("Model " + modelName + " not found");
     }
 
     @Override
     public int getModelsSize() {
         return size;
     }
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+
+    public Object clone() {
+        Motorcycle clone = null;
+        try {
+            clone = (Motorcycle) super.clone();
+            Model newHead = new Model();
+            clone.head = newHead;
+            clone.head.prev = newHead;
+            clone.head.next = newHead;
+            clone.size = 0;
+            for (String s : getModelNames()) {
+                clone.addModel(s, getPrice(s));
+            }
+        } catch (Exception ex) {
+        }
+        return clone;
     }
 }

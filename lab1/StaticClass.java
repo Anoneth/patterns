@@ -24,7 +24,7 @@ public class StaticClass {
         }
     }
 
-    public void setTransportFactory(TransportFactory transportFactory) {
+    public static void setTransportFactory(TransportFactory transportFactory) {
         factory = transportFactory;
     }
 

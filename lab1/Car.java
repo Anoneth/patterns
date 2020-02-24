@@ -1,6 +1,7 @@
 package lab1;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import lab1.exception.DuplicateModelNameException;
 import lab1.exception.ModelPriceOutOfBoundsException;
@@ -10,6 +11,7 @@ public class Car implements Transport, Cloneable {
     private class Model {
         private String modelName;
         private double price;
+
         Model(String modelName, double price) {
             this.modelName = modelName;
             this.price = price;
@@ -31,12 +33,21 @@ public class Car implements Transport, Cloneable {
             return price;
         }
     }
+
     private String name;
     private Model[] models;
 
     public Car(String name, int size) {
         this.name = name;
-        models = new Model[size];
+        models = new Model[0];
+        try {
+            Random rnd = new Random();
+            for (int i = 0; i < size; i++) {
+                addModel("car" + i, rnd.nextInt(100));
+            }
+        } catch (Exception ex) {
+
+        }
     }
 
     @Override
@@ -50,12 +61,15 @@ public class Car implements Transport, Cloneable {
     }
 
     @Override
-    public void setModelName(String oldName, String newName) throws NoSuchModelNameException, DuplicateModelNameException {
+    public void setModelName(String oldName, String newName)
+            throws NoSuchModelNameException, DuplicateModelNameException {
         for (Model model : models) {
-            if (model.getModelName().equals(newName)) throw new DuplicateModelNameException("Model " + newName + " already exists");
+            if (model.getModelName().equals(newName))
+                throw new DuplicateModelNameException("Model " + newName + " already exists");
         }
         for (Model model : models) {
-            if (model.getModelName().equals(oldName)) model.setModelName(newName);
+            if (model.getModelName().equals(oldName))
+                model.setModelName(newName);
         }
         throw new NoSuchModelNameException("Model " + oldName + " not found");
     }
@@ -72,14 +86,16 @@ public class Car implements Transport, Cloneable {
     @Override
     public double getPrice(String modelName) throws NoSuchModelNameException {
         for (Model model : models) {
-            if (model.getModelName().equals(modelName)) return model.getPrice();
+            if (model.getModelName().equals(modelName))
+                return model.getPrice();
         }
         throw new NoSuchModelNameException("Model " + modelName + " not found");
     }
 
     @Override
-    public void setPrice(String modelName, double price) throws NoSuchModelNameException{
-        if (price < 0) throw new ModelPriceOutOfBoundsException("Price must be positive");
+    public void setPrice(String modelName, double price) throws NoSuchModelNameException {
+        if (price < 0)
+            throw new ModelPriceOutOfBoundsException("Price must be positive");
         boolean isOk = false;
         for (Model model : models) {
             if (model.getModelName().equals(modelName)) {
@@ -87,7 +103,8 @@ public class Car implements Transport, Cloneable {
                 isOk = true;
             }
         }
-        if (!isOk) throw new NoSuchModelNameException("Model " + modelName + " not found");
+        if (!isOk)
+            throw new NoSuchModelNameException("Model " + modelName + " not found");
     }
 
     @Override
@@ -101,9 +118,11 @@ public class Car implements Transport, Cloneable {
 
     @Override
     public void addModel(String modelName, double price) throws DuplicateModelNameException {
-        if (price < 0) throw new ModelPriceOutOfBoundsException("Price must be positive");
+        if (price < 0)
+            throw new ModelPriceOutOfBoundsException("Price must be positive");
         for (Model model : models) {
-            if (model.getModelName().equals(modelName)) throw new DuplicateModelNameException("Model " + modelName + " already exists");
+            if (model.getModelName().equals(modelName))
+                throw new DuplicateModelNameException("Model " + modelName + " already exists");
         }
         models = Arrays.copyOf(models, models.length + 1);
         models[models.length - 1] = new Model(modelName, price);
@@ -120,8 +139,8 @@ public class Car implements Transport, Cloneable {
             models = new Model[oldModels.length - 1];
             System.arraycopy(oldModels, 0, models, 0, i);
             System.arraycopy(oldModels, i + 1, models, i, models.length - i);
-        }
-        else throw new NoSuchModelNameException("Model " + modelName + " not found");
+        } else
+            throw new NoSuchModelNameException("Model " + modelName + " not found");
     }
 
     @Override
@@ -129,8 +148,16 @@ public class Car implements Transport, Cloneable {
         return models.length;
     }
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public Object clone() {
+        Car clone = null;
+        try {
+            clone = (Car) super.clone();
+            clone.models = models.clone();
+            for (int i = 0; i < models.length; i++) {
+                clone.models[i] = new Model(models[i].modelName, models[i].price);
+            }
+        } catch (Exception ex) {
+        }
+        return clone;
     }
 }

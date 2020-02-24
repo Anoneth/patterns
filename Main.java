@@ -1,3 +1,6 @@
+import lab1.Car;
+import lab1.Motorcycle;
+import lab1.MotorcycleFactory;
 import lab1.Singleton;
 import lab1.StaticClass;
 import lab1.Transport;
@@ -6,21 +9,42 @@ public class Main {
     public static void main(String[] args) throws Exception {
         testLab1_1();
         testLab1_2();
+        testLab1_3();
     }
 
     static void testLab1_1() {
+        System.out.println("------------------------------");
         Singleton singleton = Singleton.getInstance();
         singleton.getProperties().forEach((name, value) -> System.out.println(name + ": " + value));
     }
 
     static void testLab1_2() throws Exception {
-        Transport transport = StaticClass.createInstance("name", 0);
-        transport.addModel("name1", 10);
-        transport.addModel("name2", 11);
-        transport.addModel("name3", 12);
-        transport.removeModel("name2");
-        StaticClass.printAvg(transport);
+        System.out.println("------------------------------");
+        Transport transport = StaticClass.createInstance("car", 5);
         StaticClass.printModelNames(transport);
         StaticClass.printPrices(transport);
+        StaticClass.printAvg(transport);
+
+        System.out.println();
+
+        StaticClass.setTransportFactory(new MotorcycleFactory());
+        transport = StaticClass.createInstance("mototcycle", 5);
+        StaticClass.printModelNames(transport);
+        StaticClass.printPrices(transport);
+        StaticClass.printAvg(transport);
+    }
+
+    static void testLab1_3() throws Exception {
+        System.out.println("------------------------------");
+        Motorcycle motorcycle = new Motorcycle("name", 1);
+        Motorcycle clone = (Motorcycle) motorcycle.clone();
+        clone.setPrice("motorcycle0", 155);
+        StaticClass.printPrices(motorcycle);
+        StaticClass.printPrices(clone);
+        Car car = new Car("nameCar", 1);
+        Car clone2 = (Car) car.clone();
+        clone2.setPrice("car0", 100);
+        StaticClass.printPrices(car);
+        StaticClass.printPrices(clone2);
     }
 }
