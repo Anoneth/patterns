@@ -31,4 +31,8 @@ public class StaticClass {
     public static Transport createInstance(String name, int size) {
         return factory.createInstance(name, size);
     }
+
+    public static Transport synchronizedTransport(Transport t) {
+        return new SynchronizedTransport(t);
+    }
 }

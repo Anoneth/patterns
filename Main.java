@@ -1,15 +1,19 @@
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+
 import lab1.Car;
 import lab1.Motorcycle;
 import lab1.MotorcycleFactory;
 import lab1.Singleton;
 import lab1.StaticClass;
 import lab1.Transport;
+import lab2.Adapter;
+import lab2.Target;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        testLab1_1();
-        testLab1_2();
-        testLab1_3();
+        testLab2_1();
     }
 
     static void testLab1_1() {
@@ -46,5 +50,14 @@ public class Main {
         clone2.setPrice("car0", 100);
         StaticClass.printPrices(car);
         StaticClass.printPrices(clone2);
+    }
+
+    static void testLab2_1() {
+        String[] array = new String[] { "one", "two", "three" };
+        Target target = new Adapter();
+        OutputStream out = target.arrayToStream(array);
+        ByteArrayOutputStream baos = (ByteArrayOutputStream) out;
+        String res = target.streamToString(new ByteArrayInputStream(baos.toByteArray()));
+        System.out.println(res);
     }
 }
