@@ -8,6 +8,7 @@ import lab1.MotorcycleFactory;
 import lab1.Singleton;
 import lab1.StaticClass;
 import lab1.Transport;
+import lab2.AdapteeClass;
 import lab2.Adapter;
 import lab2.Target;
 
@@ -54,7 +55,7 @@ public class Main {
 
     static void testLab2_1() {
         String[] array = new String[] { "one", "two", "three" };
-        Target target = new Adapter();
+        Target target = new Adapter(new AdapteeClass());
         OutputStream out = target.arrayToStream(array);
         ByteArrayOutputStream baos = (ByteArrayOutputStream) out;
         String res = target.streamToString(new ByteArrayInputStream(baos.toByteArray()));
