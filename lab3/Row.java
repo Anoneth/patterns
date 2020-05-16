@@ -11,7 +11,8 @@ public class Row implements ChainOfResponsibility {
     public void print(Transport transport) {
         if (transport.getModelsSize() < 4) {
             try (FileWriter fileWriter = new FileWriter("out.txt", true)) {
-                fileWriter.append(transport.getName() + ", " + transport.getModelsSize() + "\r\n");
+                fileWriter.append("Name: " + transport.getName() + ", " + 
+                                  "Size: " + transport.getModelsSize() + "\r\n");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

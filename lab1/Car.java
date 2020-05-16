@@ -1,14 +1,22 @@
 package lab1;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.io.Writer;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Random;
 
 import lab1.exception.DuplicateModelNameException;
 import lab1.exception.ModelPriceOutOfBoundsException;
 import lab1.exception.NoSuchModelNameException;
+import lab3.Command;
 
-public class Car implements Transport, Cloneable {
-    private class Model {
+public class Car implements Transport, Cloneable, Serializable {
+    protected static class Model implements Serializable {
         private String modelName;
         private double price;
 
@@ -32,7 +40,62 @@ public class Car implements Transport, Cloneable {
         double getPrice() {
             return price;
         }
+
+        @Override
+        public String toString() {
+            return modelName + " " + price;
+        }
     }
+
+    class CarIterator implements Iterator {
+        int current = -1;
+
+        CarIterator() {
+            if (models.length > 0) {
+                current = 0;
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current != -1 && current < models.length;
+        }
+
+        @Override
+        public Object next() {
+            if (hasNext()) {
+                return models[current++];
+            }
+            return null;
+        }
+    }
+
+    public static class MementoCar {
+        static byte[] buf;
+        public static Car getCar() {
+            try {
+                ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(buf));
+                Car car = (Car) ois.readObject();
+                return car;
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+            return null;
+        }
+
+        public static void setCar(Car car) {
+            try {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(baos);
+                oos.writeObject(car);
+                buf = baos.toByteArray();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }
+
+    private Command command;
 
     private String name;
     private Model[] models;
@@ -160,4 +223,29 @@ public class Car implements Transport, Cloneable {
         }
         return clone;
     }
+
+    public void setPrintCommand(Command command) {
+        this.command = command;
+    }
+
+    public void print(Writer writer) {
+        command.print(this, writer);
+    }
+
+    public Iterator iterator() {
+        return new CarIterator();
+    }
+
+    public void createMemento() {
+        MementoCar.setCar(this);
+    }
+
+    public void setMemento() {
+        Car car = MementoCar.getCar();
+        if (car != null) {
+            this.name = car.name;
+            this.models = car.models;
+        }
+    }
+
 }

@@ -11,7 +11,8 @@ public class Column implements ChainOfResponsibility {
     public void print(Transport transport) {
         if (transport.getModelsSize() > 3) {
             try (FileWriter fileWriter = new FileWriter("out.txt", true)) {
-                fileWriter.append(transport.getName() + "\r\n" + transport.getModelsSize() + "\r\n");
+                fileWriter.append("Name: " + transport.getName() + "\r\n" + 
+                                  "Size: " + transport.getModelsSize() + "\r\n");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

@@ -1,6 +1,8 @@
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileWriter;
 import java.io.OutputStream;
+import java.util.Iterator;
 
 import lab1.Car;
 import lab1.Motorcycle;
@@ -11,11 +13,18 @@ import lab1.Transport;
 import lab2.Adapter;
 import lab2.Target;
 import lab3.Row;
+import lab3.RowCommand;
+import lab3.Smile;
+import lab3.Strategy;
+import lab3.StrategyDOM;
+import lab3.StrategySAX;
 import lab3.Column;
+import lab3.ColumnCommand;
+import lab3.Physics;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        testLab3_1();
+        testLab3_7();
     }
 
     static void testLab1_1() {
@@ -71,6 +80,52 @@ public class Main {
         Transport t1 = new Car("car", 2);
         Transport t2 = new Motorcycle("motorcycle", 5);
         column.print(t1);
-        //row.print(t2);
+        row.print(t2);
+    }
+
+    static void testLab3_2() throws Exception {
+        Car car = new Car("blabla", 5);
+        RowCommand rowCommand = new RowCommand();
+        ColumnCommand columnCommand = new ColumnCommand();
+        FileWriter fileWriter = new FileWriter("command.txt");
+        car.setPrintCommand(rowCommand);
+        car.print(fileWriter);
+        fileWriter.flush();
+        car.setPrintCommand(columnCommand);
+        car.print(fileWriter);
+        fileWriter.flush();
+    }
+
+    static void testLab3_3() {
+        Car car = new Car("bla", 5);
+        Iterator iterator = car.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
+
+    static void testLab3_4() {
+        Car car = new Car("memento", 4);
+        System.out.println("Origin: " + car.getName());
+        car.createMemento();
+        car.setName("memento321");
+        System.out.println("Edited: " + car.getName());
+        car.setMemento();
+        System.out.println("Restored: " + car.getName());
+    }
+
+    static void testLab3_5() {
+        Smile smile = new Smile();
+        smile.setVisible(true);
+    }
+
+    static void testLab3_6(String[] args) throws Exception {
+        Strategy strategy = new StrategySAX();
+        strategy.check(args[0], args[1]);
+    }
+
+    static void testLab3_7() {
+        Physics physics = new Physics();
+        physics.setVisible(true);
     }
 }
