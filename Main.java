@@ -10,10 +10,12 @@ import lab1.StaticClass;
 import lab1.Transport;
 import lab2.Adapter;
 import lab2.Target;
+import lab3.Row;
+import lab3.Column;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        testLab2_1();
+        testLab3_1();
     }
 
     static void testLab1_1() {
@@ -59,5 +61,16 @@ public class Main {
         ByteArrayOutputStream baos = (ByteArrayOutputStream) out;
         String res = target.streamToString(new ByteArrayInputStream(baos.toByteArray()));
         System.out.println(res);
+    }
+
+    static void testLab3_1() {
+        Row row = new Row();
+        Column column = new Column();
+        row.setNext(column);
+        column.setNext(row);
+        Transport t1 = new Car("car", 2);
+        Transport t2 = new Motorcycle("motorcycle", 5);
+        column.print(t1);
+        //row.print(t2);
     }
 }
