@@ -27,11 +27,13 @@ public class Physics extends Frame {
 
         algorithms = new ArrayList<>();
         algorithms.add(new CircleAlgorithm());
+        algorithms.add(new RectAlgorithm());
+        algorithms.add(new StarAlgorithm());
 
         setLayout(null);
 
         Button addCircle = new Button();
-        addCircle.setBounds(520, 50, 100, 30);
+        addCircle.setBounds(520, 50, 150, 30);
         addCircle.setLabel("Добавить круг");
         addCircle.setVisible(true);
         addCircle.addActionListener(new ActionListener() {
@@ -42,24 +44,24 @@ public class Physics extends Frame {
         });
         add(addCircle);
         Button addRect = new Button();
-        addRect.setBounds(520, 50, 100, 30);
+        addRect.setBounds(520, 90, 150, 30);
         addRect.setLabel("Добавить квадрат");
         addRect.setVisible(true);
         addRect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                algorithms.get(0).addItem();
+                algorithms.get(1).addItem();
             }
         });
         add(addRect);
         Button addStar = new Button();
-        addStar.setBounds(520, 50, 100, 30);
+        addStar.setBounds(520, 130, 150, 30);
         addStar.setLabel("Добавить звезду");
         addStar.setVisible(true);
         addStar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                algorithms.get(0).addItem();
+                algorithms.get(2).addItem();
             }
         });
         add(addStar);
@@ -87,6 +89,7 @@ public class Physics extends Frame {
         for (AbstractAlgorithm aa : algorithms) {
             aa.tick(bGraphics);
         }
-        canvas.getGraphics().drawImage(buffer, 0, 0, this);
+        Graphics2D g2d = (Graphics2D)canvas.getGraphics();
+        g2d.drawImage(buffer, 0, 0, this);
     }
 }

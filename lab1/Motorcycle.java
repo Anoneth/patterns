@@ -5,6 +5,7 @@ import java.util.Random;
 import lab1.exception.DuplicateModelNameException;
 import lab1.exception.ModelPriceOutOfBoundsException;
 import lab1.exception.NoSuchModelNameException;
+import lab3.Visitor;
 
 public class Motorcycle implements Transport, Cloneable {
     private class Model {
@@ -175,5 +176,10 @@ public class Motorcycle implements Transport, Cloneable {
         } catch (Exception ex) {
         }
         return clone;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
     }
 }

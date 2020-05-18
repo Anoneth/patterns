@@ -14,6 +14,7 @@ import lab1.exception.DuplicateModelNameException;
 import lab1.exception.ModelPriceOutOfBoundsException;
 import lab1.exception.NoSuchModelNameException;
 import lab3.Command;
+import lab3.Visitor;
 
 public class Car implements Transport, Cloneable, Serializable {
     protected static class Model implements Serializable {
@@ -248,4 +249,8 @@ public class Car implements Transport, Cloneable, Serializable {
         }
     }
 
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 }

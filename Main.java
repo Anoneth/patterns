@@ -19,13 +19,16 @@ import lab3.Smile;
 import lab3.Strategy;
 import lab3.StrategyDOM;
 import lab3.StrategySAX;
+import lab4.DAO;
+import lab4.View;
 import lab3.Column;
 import lab3.ColumnCommand;
 import lab3.Physics;
+import lab3.PrintVisitor;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        testLab3_7();
+        testLab4_1();
     }
 
     static void testLab1_1() {
@@ -128,5 +131,25 @@ public class Main {
     static void testLab3_7() {
         Physics physics = new Physics();
         physics.setVisible(true);
+    }
+
+    static void testLab3_8() {
+        PrintVisitor printVisitor = new PrintVisitor();
+        Car car = new Car("lalala", 5);
+        Motorcycle motorcycle = new Motorcycle("alalal", 5);
+        car.accept(printVisitor);
+        motorcycle.accept(printVisitor);
+    }
+
+    static void testLab4_1() {
+        View view = new View();
+        view.setVisible(true);
+    }
+
+    static void testLab4_2() throws Exception {
+        Car car = new Car("fileCar", 5);
+        DAO dao = new DAO();
+        dao.storeText(car);
+        StaticClass.printModelNames(dao.getText());
     }
 }

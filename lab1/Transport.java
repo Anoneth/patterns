@@ -2,6 +2,7 @@ package lab1;
 
 import lab1.exception.DuplicateModelNameException;
 import lab1.exception.NoSuchModelNameException;
+import lab3.Visitor;
 
 public interface Transport {
     public String getName();
@@ -14,4 +15,5 @@ public interface Transport {
     public void addModel(String modelName, double price) throws DuplicateModelNameException;
     public void removeModel(String modelName) throws NoSuchModelNameException;
     public int getModelsSize();
+    public void accept(Visitor visitor);
 }

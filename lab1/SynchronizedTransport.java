@@ -2,6 +2,7 @@ package lab1;
 
 import lab1.exception.DuplicateModelNameException;
 import lab1.exception.NoSuchModelNameException;
+import lab3.Visitor;
 
 public class SynchronizedTransport implements Transport {
     private Transport t;
@@ -59,6 +60,11 @@ public class SynchronizedTransport implements Transport {
     @Override
     public synchronized void removeModel(String modelName) throws NoSuchModelNameException {
         t.removeModel(modelName);
+    }
+
+    @Override
+    public synchronized void accept(Visitor visitor) {
+        t.accept(visitor);
     }
 
 }
