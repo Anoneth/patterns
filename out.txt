@@ -1,3 +1,14 @@
-car, 2
-motorcycle
-5
+Name: car Size: 2, Model: car0 Price: 59.0, Model: car1 Price: 91.0
+Name: motorcycle Size: 5
+Model: motorcycle0 Price: 23.0
+Model: motorcycle1 Price: 32.0
+Model: motorcycle2 Price: 70.0
+Model: motorcycle3 Price: 82.0
+Model: motorcycle4 Price: 27.0
+Name: car Size: 2, Model: car0 Price: 55.0, Model: car1 Price: 57.0
+Name: motorcycle Size: 5
+Model: motorcycle0 Price: 86.0
+Model: motorcycle1 Price: 31.0
+Model: motorcycle2 Price: 81.0
+Model: motorcycle3 Price: 93.0
+Model: motorcycle4 Price: 12.0

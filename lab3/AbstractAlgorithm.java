@@ -2,19 +2,35 @@ package lab3;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.Timer;
+
+import java.awt.event.*;
+
 import java.awt.*;
 
-public abstract class AbstractAlgorithm {
+public abstract class AbstractAlgorithm implements Runnable {
     protected List<Item> items;
 
     public AbstractAlgorithm() {
         items = new ArrayList<>();
     }
 
-    public void tick(Graphics g) {
+    @Override
+    public void run() {
+        while (true) {
+            tick();
+            try {
+                Thread.sleep(10);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+    }
+
+    public void tick() {
         moveItems();
         calcSpeeds();
-        drawItems(g);
     }
 
     public void moveItems() {

@@ -1,1 +1,7 @@
-blabla, 5blabla, 5
+Name: blabla Size: 5, Model: car0 Price: 3.0, Model: car1 Price: 92.0, Model: car2 Price: 16.0, Model: car3 Price: 23.0, Model: car4 Price: 88.0
+Name: blabla Size: 5
+Model: car0 Price: 3.0
+Model: car1 Price: 92.0
+Model: car2 Price: 16.0
+Model: car3 Price: 23.0
+Model: car4 Price: 88.0

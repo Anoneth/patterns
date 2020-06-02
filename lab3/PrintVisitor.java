@@ -8,9 +8,9 @@ public class PrintVisitor implements Visitor {
     public void visit(Car car) {
         double[] t1 = car.getPrices();
         String[] t2 = car.getModelNames();
-        System.out.print("Name: " + car.getName() + " Size: " + car.getModelsSize() + ", ");
+        System.out.print("Name: " + car.getName() + " Size: " + car.getModelsSize());
         for (int i = 0; i < t1.length; i++) {
-            System.out.print("Model: " + t2[i] + " Price: " + t1[i] + ", ");
+            System.out.print(", Model: " + t2[i] + " Price: " + t1[i]);
         }
         System.out.println("");
     }

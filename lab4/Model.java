@@ -106,7 +106,7 @@ public class Model implements TableModel {
     public void addRow() {
         double[] t = Arrays.copyOf(x, x.length + 1);
         x = t;
-        x[x.length - 1] = 0;
+        x[x.length - 1] = (Math.random() - 0.5) * 10;
         t = Arrays.copyOf(y, y.length + 1);
         y = t;
         Arrays.sort(x);

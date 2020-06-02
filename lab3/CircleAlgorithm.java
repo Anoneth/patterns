@@ -1,4 +1,5 @@
 package lab3;
+
 import java.awt.*;
 
 public class CircleAlgorithm extends AbstractAlgorithm {
@@ -12,8 +13,11 @@ public class CircleAlgorithm extends AbstractAlgorithm {
 
     @Override
     public void drawItems(Graphics g) {
-        for (Item item : items) {
-            g.drawOval(500 - item.getX() - item.getWidth() / 2, 500 - item.getY() - item.getHeight() / 2, item.getWidth(), item.getHeight());
+        synchronized (items) {
+            for (Item item : items) {
+                g.drawOval(500 - item.getX() - item.getWidth() / 2, 500 - item.getY() - item.getHeight() / 2,
+                        item.getWidth(), item.getHeight());
+            }
         }
     }
 
@@ -21,5 +25,5 @@ public class CircleAlgorithm extends AbstractAlgorithm {
     public void addItem() {
         addItem(new Item(50, 50, 50, 50, -5, -5));
     }
-    
+
 }

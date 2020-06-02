@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,7 +23,7 @@ public class View extends JFrame implements MyControlListener {
     private JTable table;
 
     public View() {
-        setSize(700, 700);
+        setSize(770, 700);
         setLayout(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -43,12 +44,12 @@ public class View extends JFrame implements MyControlListener {
             }
         });
         
-        scrollPane.setBounds(570, 40, 80, 200);
+        scrollPane.setBounds(570, 40, 130, 500);
         scrollPane.setEnabled(true);
 
         JButton addButton = new JButton();
         addButton.setText("+");
-        addButton.setBounds(650, 40, 40, 40);
+        addButton.setBounds(700, 40, 60, 40);
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,18 +58,22 @@ public class View extends JFrame implements MyControlListener {
         });
         JButton removeButton = new JButton();
         removeButton.setText("-");
-        removeButton.setBounds(650, 80, 40, 40);
+        removeButton.setBounds(700, 80, 60, 40);
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 model.removeRow();
             }
         });
+
+        JLabel label = new JLabel("y=cos(x)");
+        label.setBounds(570, 25, 100, 15);
         
         add(addButton);
         add(removeButton);
         add(panel);
         add(scrollPane);
+        add(label);
 
     }
 
@@ -88,8 +93,8 @@ public class View extends JFrame implements MyControlListener {
             int axisX = x[0] > 0 ? 0 : 500;
             int axisY = y[0] > 0 ? 500 : 0;
             drawAxis(g, axisX, axisY);
-            double pointX = x[0] > 0 ? x[0] * zoom : 500 - x[0] * zoom;
-            double pointY = y[0] > 0 ? y[0] * zoom : 500 - y[0] * zoom;
+            double pointX = x[0] > 0 ? x[0] * zoom : 500 + x[0] * zoom;
+            double pointY = y[0] > 0 ? y[0] * zoom : 500 + y[0] * zoom;
             drawPoint(g, pointX, pointY);
         } else {
             double x0 = findMin(x);

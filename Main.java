@@ -20,6 +20,8 @@ import lab3.Strategy;
 import lab3.StrategyDOM;
 import lab3.StrategySAX;
 import lab4.DAO;
+import lab4.SerializeDAO;
+import lab4.TextDAO;
 import lab4.View;
 import lab3.Column;
 import lab3.ColumnCommand;
@@ -28,7 +30,7 @@ import lab3.PrintVisitor;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        testLab4_1();
+        testLab3_7();
     }
 
     static void testLab1_1() {
@@ -124,7 +126,7 @@ public class Main {
     }
 
     static void testLab3_6(String[] args) throws Exception {
-        Strategy strategy = new StrategySAX();
+        Strategy strategy = new StrategyDOM();
         strategy.check(args[0], args[1]);
     }
 
@@ -147,9 +149,22 @@ public class Main {
     }
 
     static void testLab4_2() throws Exception {
-        Car car = new Car("fileCar", 5);
-        DAO dao = new DAO();
-        dao.storeText(car);
-        StaticClass.printModelNames(dao.getText());
+        Car car = new Car("fileCar", 3);
+        DAO dao = new TextDAO();
+        StaticClass.printModelNames(car);
+        StaticClass.printPrices(car);
+        dao.store(car);
+        StaticClass.printModelNames(dao.get());
+        StaticClass.printPrices(dao.get());
+        
+        System.out.println("--------------------------");
+
+        dao = new SerializeDAO();
+        Motorcycle motorcycle = new Motorcycle("serializeMoto", 3);
+        StaticClass.printModelNames(motorcycle);
+        StaticClass.printPrices(motorcycle);
+        dao.store(motorcycle);
+        StaticClass.printModelNames(dao.get());
+        StaticClass.printPrices(dao.get());
     }
 }

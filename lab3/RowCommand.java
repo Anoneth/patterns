@@ -10,9 +10,9 @@ public class RowCommand implements Command {
         try {
             double[] t1 = car.getPrices();
             String[] t2 = car.getModelNames();
-            writer.append("Name: " + car.getName() + " Size: " + car.getModelsSize() + ", ");
+            writer.append("Name: " + car.getName() + " Size: " + car.getModelsSize());
             for (int i = 0; i < t1.length; i++) {
-                writer.append("Model: " + t2[i] + " Price: " + t1[i] + ", ");
+                writer.append(", Model: " + t2[i] + " Price: " + t1[i]);
             }
             writer.append("\r\n");
         } catch (Exception ex) {

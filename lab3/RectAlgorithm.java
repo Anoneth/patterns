@@ -13,8 +13,11 @@ public class RectAlgorithm extends AbstractAlgorithm {
 
     @Override
     public void drawItems(Graphics g) {
-        for (Item item : items) {
-            g.drawRect(item.getX() - item.getWidth() / 2, item.getY() - item.getHeight() / 2, item.getWidth(), item.getHeight());
+        synchronized (items) {
+            for (Item item : items) {
+                g.drawRect(item.getX() - item.getWidth() / 2, item.getY() - item.getHeight() / 2, item.getWidth(),
+                        item.getHeight());
+            }
         }
     }
 
@@ -22,5 +25,5 @@ public class RectAlgorithm extends AbstractAlgorithm {
     public void addItem() {
         addItem(new Item(475, 475, 40, 40, 2, 2));
     }
-    
+
 }

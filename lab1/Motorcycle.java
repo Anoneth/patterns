@@ -1,5 +1,6 @@
 package lab1;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import lab1.exception.DuplicateModelNameException;
@@ -7,8 +8,8 @@ import lab1.exception.ModelPriceOutOfBoundsException;
 import lab1.exception.NoSuchModelNameException;
 import lab3.Visitor;
 
-public class Motorcycle implements Transport, Cloneable {
-    private class Model {
+public class Motorcycle implements Transport, Cloneable, Serializable {
+    private class Model implements Serializable {
         String modelName = null;
         double price = Double.NaN;
 

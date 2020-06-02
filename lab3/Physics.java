@@ -6,6 +6,9 @@ import java.awt.geom.*;
 import java.awt.image.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.Timer;
 
@@ -71,6 +74,11 @@ public class Physics extends Frame {
         canvas.setVisible(true);
         add(canvas);
 
+        ExecutorService threadPool = Executors.newFixedThreadPool(3);
+        for (Runnable r : algorithms) {
+            threadPool.submit(r);
+        }
+
         Timer timer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,7 +95,7 @@ public class Physics extends Frame {
         bGraphics.setColor(Color.black);
         bGraphics.drawRect(0, 0, 500, 500);
         for (AbstractAlgorithm aa : algorithms) {
-            aa.tick(bGraphics);
+            aa.drawItems(bGraphics);
         }
         Graphics2D g2d = (Graphics2D)canvas.getGraphics();
         g2d.drawImage(buffer, 0, 0, this);
